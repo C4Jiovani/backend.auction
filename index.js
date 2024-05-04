@@ -4,7 +4,7 @@ import dotenv from "dotenv";
 import AuthRouteAdminRoute from "./routes/admin/AuthRouteAdmin.js";
 import AuthRouteUser from "./routes/client/AuthRouteUser.js";
 import cookieParser from "cookie-parser";
-import { Server } from "socket.io";
+// import { Server } from "socket.io";
 import http from "http";
 import multer from 'multer';
 import path from "path";
@@ -28,16 +28,27 @@ app.use(cors());
 
 const server = http.createServer(app); // Création du serveur HTTP
 
-const io = new Server(server); // Initialisation de Socket.IO
+// const io = new Server(server); // Initialisation de Socket.IO
+// const io = new Server({
+//   cors: {
+//     origin: "http://localhost:8080"
+//   }
+// }); // Initialisation de Socket.IO
 
-io.on("connect", (socket) => {
-  console.log("A client connected to WebSocket server");
+// io.on("connect", (socket) => {
+//   // console.log("A client connected to WebSocket server");
+//   socket.on('comment', (data) => {
+//     // Diffuser le commentaire à tous les utilisateurs connectés
+//     io.emit('newComment', data);
+//   });
 
-  // Gérer les événements WebSocket ici
-  socket.on("disconnect", () => {
-    console.log("A client disconnected from WebSocket server");
-  });
-});
+//   // Gérer les événements WebSocket ici
+//   socket.on("disconnect", () => {
+//     console.log("A client disconnected from WebSocket server");
+//   });
+// });
+
+
 
 app.use("/admin", AuthRouteAdminRoute);
 app.use("/user", AuthRouteUser);

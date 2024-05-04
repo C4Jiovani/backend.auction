@@ -2,8 +2,14 @@ import { db } from "../../../config/bd.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import nodemailer from "nodemailer"
+import { upload } from "../../../config/multer.js";
 
 export const register = (req, res) => {
+  upload.single('image')(req,res,(err)=>{
+    if(err){
+      return res.status(400).json({message: 'Failed to upload image',error: err})
+    }
+  })
   // Check if required fields are present in the request body
   if (
     !req.body.email ||

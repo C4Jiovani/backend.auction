@@ -18,7 +18,7 @@ router.post('/resetpass',ControllerClient.updatePassword)
 
 //CRUD user
 router.put("/:IdUser", ControllerClient.updateUser)
-router.get("/", ControllerClient.getUser)
+router.get("/:IdUser", ControllerClient.getUser)
 //COMMENT
 router.post("/comment", ControllerCommentClient.addComment);
 router.get("/comment", ControllerCommentClient.getAllComments);
