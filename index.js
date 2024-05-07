@@ -109,9 +109,30 @@ const io = new SocketIOServer(server, {
 io.on('connection', (socket) => {
   console.log('Nouvelle Connection', socket.id);
 
+  io.on('connection', (socket) => {
+    console.log('Nouvelle Connection', socket.id);
+
+    socket.on('updatePrice', ({ newPrice, idLive }) => {
+      const queryUpdate = `UPDATE live SET prixInit = ${newPrice} WHERE idLive = ?;`;
+
+      db.query(queryUpdate, [idLive], (error, results, fields) => {
+        if (error) {
+          console.log('Erreur lors de la mise à jour du prix initial :', error.message);
+          // Gérer l'erreur, par exemple en envoyant un message d'erreur aux clients
+          io.emit('updatePriceError', { message: 'Erreur lors de la mise à jour du prix initial.' });
+        } else {
+          console.log('Prix initial mis à jour dans la base de données :', newPrice);
+          // Émettre un événement aux clients pour indiquer que le prix initial a été mis à jour
+          io.emit('priceUpdated', newPrice);
+        }
+      });
+    });
+  });
+
+
   socket.on('newComment', (comment) => {
     const insterQuery = "INSERT INTO comment (IdUser,montant,name) VALUES (?,?,?)";
-    db.query(insterQuery, [comment.user, comment.montant,comment.nameL], (err, res) => {
+    db.query(insterQuery, [comment.user, comment.montant, comment.nameL], (err, res) => {
       if (err) {
         console.log('erreur de l insertion du commentaire', err);
       } else {
