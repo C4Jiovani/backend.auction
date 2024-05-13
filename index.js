@@ -128,8 +128,7 @@ io.on('connection', (socket) => {
       });
     });
   });
-
-
+  
   socket.on('newComment', (comment) => {
     const insterQuery = "INSERT INTO comment (IdUser,montant,name) VALUES (?,?,?)";
     db.query(insterQuery, [comment.user, comment.montant, comment.nameL], (err, res) => {

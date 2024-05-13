@@ -86,7 +86,7 @@ export const getlive = (req, res) => {
   });
 };
 export const getProds = (req, res) => {
-  const query = "SELECT * FROM product";
+  const query = "SELECT * FROM `product` ORDER BY `product`.`IdPro` DESC";
 
   db.query(query, (err, products) => {
     if (err) {
